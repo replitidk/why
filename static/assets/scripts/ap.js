@@ -11,7 +11,7 @@ function handleClick(app) {
 
   if (app.local) {
     saveToLocal(app.link)
-    window.location.href = "p"
+    window.location.href = "ta"
   } else if (app.local2) {
     saveToLocal(app.link)
     window.location.href = app.link
@@ -31,7 +31,7 @@ function handleClick(app) {
 }
 
 function CustomApp(customApp) {
-  let apps = localStorage.getItem("Gcustom")
+  let apps = localStorage.getItem("Acustom")
 
   if (apps === null) {
     apps = {}
@@ -43,11 +43,11 @@ function CustomApp(customApp) {
 
   apps[key] = customApp
 
-  localStorage.setItem("Gcustom", JSON.stringify(apps))
+  localStorage.setItem("Acustom", JSON.stringify(apps))
 }
 
 function setPin(index) {
-  let pins = localStorage.getItem("Gpinned")
+  let pins = localStorage.getItem("Apinned")
   if (pins == null) {
     pins = []
   }
@@ -62,7 +62,7 @@ function setPin(index) {
   } else {
     pins.push(index)
   }
-  localStorage.setItem("Gpinned", pins)
+  localStorage.setItem("Apinned", pins)
   location.reload()
 }
 
@@ -141,14 +141,14 @@ function initializeCustomApp(customApp) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const storedApps = JSON.parse(localStorage.getItem("Gcustom"))
+  const storedApps = JSON.parse(localStorage.getItem("Acustom"))
   if (storedApps) {
     Object.values(storedApps).forEach((app) => {
       initializeCustomApp(app)
     })
   }
 
-  fetch("/assets/json/g.min.json")
+  fetch("/assets/json/a.min.json")
     .then((response) => {
       return response.json()
     })
@@ -160,9 +160,10 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       const nonPinnedApps = document.querySelector(".container-apps")
       const pinnedApps = document.querySelector(".pinned-apps")
-      var pinList = localStorage.getItem("Gpinned") || ""
+      var pinList = localStorage.getItem("Apinned") || ""
       pinList = pinList ? pinList.split(",").map(Number) : []
       appInd = 0
+
       appsList.forEach((app) => {
         if (app.categories && app.categories.includes("local")) {
           app.local = true
@@ -222,10 +223,16 @@ document.addEventListener("DOMContentLoaded", () => {
           if (!app.say) {
             app.say = "This app is currently not working."
           }
+        } else if (app.load) {
+          paragraph.style.color = "yellow"
+          if (!app.say) {
+            app.say = "This app may experience excessive loading times."
+          }
         } else if (app.partial) {
           paragraph.style.color = "yellow"
           if (!app.say) {
-            app.say = "This app is currently experiencing some issues, it may not work for you."
+            app.say =
+              "This app is currently experiencing some issues, it may not work for you. (Dynamic doesn't work in about:blank)"
           }
         }
 
