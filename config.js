@@ -4,7 +4,6 @@ const config = {
     // You can add multiple users by doing username: 'password'.
     admindanke: '6895', ryan: '1391', bishop: '3912', adminvince: '1937', fortnitekid997: '9102' , royalxcypress: '4592' , guest: '1242'
   },
-  routes: true, // Change this to false if you just want to host a bare server.
-  local: true, // Change this to false to disable local assets.
-}
-export default config
+};
+
+export default config;
